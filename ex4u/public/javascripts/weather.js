@@ -1,140 +1,196 @@
-(function(){
-    function $(x) { return document.getElementById(x)};
+(function () {
+    document.addEventListener('DOMContentLoaded', function () {
+        getDB();
+        document.getElementById("button-add").addEventListener('click', addDB);
+        document.getElementById("id-button-remove").addEventListener('click', deleteItem);
+        document.getElementById("id-button-select").addEventListener('click', selectItem);
+    }, false);
 
+    function getDB(){
+        let cities = [];
+        for (i of cities){
+            addToList(i);
+        }
 
-    //to translate the key words of weather
-    let meaning = {
-        pcloudy:"partly cloudy",
-        vcloudy:"very cloudy",
-        ishower:"isolated showers",
-        lightrain:"light rain",
-        oshowers:"occasional shower",
+    }
+    function getUrl(strArr) {
+        let str = " ";
+        str = "http://www.7timer.info/bin/api.pl?lon=" + strArr[1] + "&lat=" + strArr[0] + "&product=civillight&output=json";
+        return str;
     }
 
-    //json of places and their lat & lon
-    let places = {};
-
-    //do validation for input and add location to the list
-    function add_place(){
-        let user_id = $("userId").innerHTML;
-
-        $("comment").innerHTML ="";
-        let country = $("place").value;
-
-        if (!valid(country, user_id, ))return;
-
-        let lat = $("latitude").value;
-        let long = $("longitude").value;
-
-        if( in_range(lat, 90, "latitude") && in_range (long, 180, "longitude")){
-            places[country] = {latitude:lat , longitude:long};
-            let elem = $("put");
-             let str = `<div class="p-1" id=\"${country}_row\">`+
-                `<input type=\"radio\" id=\"${country}\" name=\"locations\" >\n` +
-                `<label for=\"${country}\">${country}</label>\n` +
-                `</div>`;
-            elem.innerHTML += str;
-            $("del").classList.remove("d-none");
-        }
+    function getUrlImage(strArr) {
+        let str = " ";
+        str = "http://www.7timer.info/bin/astro.php? lon=" + strArr[1] + "&lat=" + strArr[0] + "&ac=0&lang=en&unit=metric&output=internal&tzshift=0";
+        return str;
     }
 
-    //valid the input of a place that it not empty and it didn't exist already
-    function valid(country, user_id){
-        if (country == ""){
-            $("comment").innerHTML = "enter a name of location";
-            return false;
-        }
-        const data = { place: country, id: user_id};
+    function getVertex() {
+        //A function that takes the input and returns the vertex
+        let mySelect = document.getElementById("id-select");
+        mySelect = mySelect[mySelect.selectedIndex].text.substring(mySelect[mySelect.selectedIndex].text.indexOf("(") + 1);
+        mySelect = mySelect.substring(0, mySelect.length - 1);
+        return mySelect.split(",");
+    }
 
-        fetch('http://localhost:3000/weather', {
+
+    function selectItem() {
+        document.getElementById("id-error").style.display = "none";
+        document.getElementById("id-table").style.display = "none";
+        //A function that handles sending the data to the server
+        let strArr = getVertex();//line 20
+        let strUrl = getUrl(strArr);// line 8
+        let strUrlImage = getUrlImage(strArr);
+        getData(strUrl);
+        getimage(strUrlImage)
+    }
+
+    function deleteItem() {
+        let mySelect = document.getElementById("id-select");
+
+        let user_id = document.getElementById("user_id").innerHTML;
+        let city = mySelect[mySelect.selectedIndex].text.substring(0,mySelect[mySelect.selectedIndex].text.indexOf("(") -1 );
+
+        const data = {  user_id: user_id, location: city};
+        fetch('http://localhost:3000/weather/remove', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .catch(err => {
+                console.log(err)});
+
+        mySelect.remove(mySelect.selectedIndex);
+
+    }
+    function checkInput(city, longitude, latitude){
+        let str ="";
+        if (city === "" || longitude === "" || latitude === ""){
+            str +="The form is incomplete";
+        }
+        else if (longitude >180 || longitude < -180 || latitude > 90 || latitude < -90){
+            str +="The location is not in range";
+        }
+        if (str !== "") {
+            document.getElementById("id-error").innerHTML = str;
+            document.getElementById("id-error").style.display = "block";
+            return false
+        }
+        else
+            return true;
+
+    }
+    //let accept = {city:"jerusalem", lon:15.3, lat:14.5};
+    function addToList(accept) {
+
+        let mySelect = document.getElementById("id-select");
+        let morOption = document.createElement("option");
+        console.log(accept["city"]);
+        morOption.text = accept["city"] + " (" + accept["lon"] +
+            "," + accept["lat"] + ")";
+        console.log(morOption);
+        mySelect.add(morOption);
+    }
+
+    function addDB(){
+        if (checkInput(document.getElementById("my-city").value, document.getElementById("my-longitude").value, document.getElementById("my-latitude").value) === false){
+            return;
+        }
+        else {
+            document.getElementById("id-error").style.display = "none";
+        }
+        let city = document.getElementById("my-city").value;
+        let lon = document.getElementById("my-longitude").value;
+        let lat = document.getElementById("my-latitude").value;
+        addToList({city:city,lon:lon,lat:lat});
+
+        let user_id = document.getElementById("user_id").innerHTML;
+        const data = {  user_id: user_id, location: city,lat:lat, lon:lon};
+
+        fetch('http://localhost:3000/weather/add', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         });
-
-        if (places.hasOwnProperty(country)){
-            $("comment").innerHTML = "this location already exist";
-            return false;
-        }
-        return true;
     }
 
-    //by click on delete it del the chosen place
-    function del(){
-        let country = document.querySelector('input[type="radio"]:checked').id;
-        $(country+"_row").remove();
-        delete places[country];
+    function status(response) {//A function that handles status
+        if (response.status <= 200 || response.status > 300) {
+            //throw "first"
+            return Promise.resolve(response)
+        } else {
+            return Promise.reject(new Error(response.statusText))
+        }
     }
 
-    //check the input of lat & lon are in the range and print a comment
-    function in_range(num, limit, type){
-        let number = Number(num);
-        if (!number){
-            $("comment").innerHTML = type +" must be a number";
-            return false;
-        }
-        if (-limit > number || number > limit){
-            $("comment").innerHTML = "enter "+type +" between " + -limit +" and "+ limit;
-            return false;
-        }
-        return true;
+    function getDate(numDate) {//A function that returns a date
+        let str = numDate.toString();
+        return str.substring(6, 8) + "/" + str.substring(4, 6) + "/" + str.substring(0, 4);
     }
 
-    //call to the server for json to show the temperature
-    function display() {
-        let place = document.querySelector('input[type="radio"]:checked').id;
+    function checkWind(speed) {//A function that checks the wind speed and if the wind is equal to 1 then returns an empty string
+        if (speed === 1)
+            return " ";
+        else
+            return speed;
+    }
 
-        let lon = places[place].longitude;
-        let lat = places[place].latitude;
+    function defTable(json) {//Function the weather data into a table
+        let str = "<thead>\n" +
+            "<tr>\n" +
+            "<th scope=\"col\">date</th>\n" +
+            "<th scope=\"col\">weather</th>\n" +
+            "<th scope=\"col\">max temperature</th>\n" +
+            "<th scope=\"col\">min temperature</th>\n" +
+            "<th scope=\"col\">wind speed</th>\n" +
+            "</tr>\n" +
+            "</thead>\n" +
+            "<tbody>\n";
+        for (let i = 0; i < 7; i++) {
+            let strDate = getDate(json.dataseries[i].date);
+            str += " <tr>\n" +
+                " <th scope=\"row\">" + strDate + "</th>\n" +
+                "  <td>" + json.dataseries[i].weather + "</td>\n" +
+                "  <td>" + json.dataseries[i].temp2m.max + "</td>\n" +
+                "  <td>" + json.dataseries[i].temp2m.min + "</td>\n" +
+                "  <td>" + checkWind(json.dataseries[i].wind10m_max) + "</td>\n" +
+                "  </tr>";
+        }
+        str += "</tbody>\n"
+        document.getElementById("id-table").innerHTML = str;
+        document.getElementById("id-table").style.display = "block";
+    }
 
-        let url = `http://www.7timer.info/bin/api.pl?lon=${lon}&lat=${lat}&product=civillight&output=json`;
-        let imgUrl = `http://www.7timer.info/bin/astro.php? lon=${lon}&lat=${lat}&ac=0&lang=en&unit=metric&output=internal&tzshift=0`;
-        $("img").src = imgUrl;
+    function getData(strUrl) {//Function handles connection to server for weather data
+        fetch(strUrl)
+            .then(status)
+            .then((response) => response.json())
+            .then(function (json) {
+                defTable(json);
+            }).catch(function (error) {
+            document.getElementById("id-error").innerHTML = "weather forecast service is not available right now, please try again later";
+            document.getElementById("id-error").style.display = "block";
+        })
+    }
 
-        fetch(url)
-            .then(function (response) {
-                if (response.status !== 200) {
-                    document.querySelector("#error").innerHTML = 'Looks like there was a problem. Status Code: ' +
-                        response.status;
-                    return;
-                }
-                response.json().then(function (data) {
-
-                    fill_table(data);                                    //fill the table
-                    $("none-table").classList.remove("d-none");   //and show it
-                });
+    function getimage(strUrlImage) {//Function handles the connection to the server for the weather image
+        fetch(strUrlImage)
+            .then(status)
+            .then((response) => response.blob())
+            .then(function (myBlob) {
+                let imageUrl = URL.createObjectURL(myBlob);
+                document.querySelector("img").src = imageUrl;
+                document.getElementById("id-image").style.display = "block";
             })
-            .catch(function (err) {
-                document.querySelector("#error").innerHTML = "weather forecast service is not available right now, please try again later";
-            });
+            .catch(function (error) {
+                document.querySelector("img").src = "images.jpg";
+                document.getElementById("id-image").style.display = "block";
+                document.getElementById("id-error").innerHTML = "fetch image error";
+                document.getElementById("id-error").style.display = "block";
+            })
     }
-
-    //fill the table with the updating data
-    function fill_table(data){
-        for (let i = 1; i <= 7; i++) {
-            $("weather" + i).innerHTML = translate(data.dataseries[i - 1].weather);
-            $("min" + i).innerHTML = data.dataseries[i - 1].temp2m.min;
-            $("max" + i).innerHTML = data.dataseries[i - 1].temp2m.max;
-            if(data.dataseries[i - 1].wind10m_max !== 1) {
-                $("wind" + i).innerHTML = data.dataseries[i - 1].wind10m_max;
-            }
-        }
-    }
-
-
-    function translate(clue){
-        if (meaning.hasOwnProperty(clue))
-            return meaning[clue];
-        else return clue;
-    }
-
-
-
-    document.addEventListener('DOMContentLoaded', function(){
-        $("add").addEventListener("click", add_place ,false);
-        $("display").addEventListener("click", display ,false);
-        $("del").addEventListener("click", del ,false);
-    }, false);
-}());
+})();
