@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cc180213-8f4a-4e29-8a36-21f41ce096b0" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CSS File" />
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectId" id="1nFLEQ8Wg0zzgXj01ooNykiyFio" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="javascript.nodejs.core.library.configured.version" value="14.15.3" />
+    <property name="javascript.nodejs.core.library.typings.version" value="14.14.21" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="nodejs_interpreter_path" value="node" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\rips\Desktop\ex4u\public\images" />
+      <recent name="C:\Users\rips\Desktop\ex4u\db" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\rips\Desktop\ex4u\wheather" />
+      <recent name="C:\Users\rips\Desktop\ex4u\views" />
+      <recent name="C:\Users\rips\Desktop\ex4u\routes" />
+      <recent name="C:\Users\rips\Desktop\ex4u\public\javascripts" />
+      <recent name="C:\Users\rips\Desktop\ex4u\models" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cc180213-8f4a-4e29-8a36-21f41ce096b0" name="Default Changelist" comment="" />
+      <created>1610980780217</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1610980780217</updated>
+      <workItem from="1610980781258" duration="20801000" />
+      <workItem from="1611130938555" duration="6135000" />
+      <workItem from="1611138984275" duration="5710000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="471" y="195" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1611135524759">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="471" y="195" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1536.824@0.0.1536.824" timestamp="1611135524759" />
+    <state x="496" y="108" key="FileChooserDialogImpl" timestamp="1611132159098">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="496" y="108" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1611132159098" />
+    <state width="1509" height="196" key="GridCell.Tab.0.bottom" timestamp="1611162983310">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1509" height="196" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1611162983310" />
+    <state width="1509" height="196" key="GridCell.Tab.0.center" timestamp="1611162983310">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1509" height="196" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1611162983310" />
+    <state width="1509" height="196" key="GridCell.Tab.0.left" timestamp="1611162983310">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1509" height="196" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1611162983310" />
+    <state width="1509" height="196" key="GridCell.Tab.0.right" timestamp="1611162983310">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1509" height="196" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1611162983310" />
+  </component>
+</project>

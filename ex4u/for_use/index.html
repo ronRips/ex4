@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ex3</title>
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <script src = "index.js"></script>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 15px;
+        }
+        h3 {text-align: center}
+    </style>
+</head>
+<body>
+<div class = "container">
+    <div class="row">
+        <div class="col-md-6">
+            <h3>locations</h3>
+            <div  id = "put" class="radio">
+
+            </div>
+
+            <button class = "btn btn-primary" id ="display">display weather</button>
+            <button class = "btn btn-danger d-none" id = del >delete</button><br>
+            <hr>
+            <div>
+                <label for="place">name of a location</label>
+                <input type="text" id = "place"><br>
+                <label for="latitude">enter the latitude </label>
+                <input type="text" id = "latitude"><br>
+                <label for="longitude">enter the longitude</label>
+                <input type="text" id = "longitude"><br>
+                <button class = "btn btn-primary" id = "add">add location</button><br>
+            </div>
+            <p id = "comment"></p>
+        </div>
+
+        <div class=" col-md-6">
+            <div id = "none-table" class = "d-none">
+                <p id = "error"></p>
+                <img id = "img" src="../public/images/weather.jpg" alt="weather">
+                <table class ="table">
+                    <tr>
+                        <th>Day</th>
+                        <th>Weather</th>
+                        <th>temperature min</th>
+                        <th>temperature max</th>
+                        <th>wind speed</th>
+                    </tr>
+                    <tr>
+                        <td>#1</td>
+                        <td id ="weather1"></td>
+                        <td id ="min1"></td>
+                        <td id ="max1"></td>
+                        <td id ="wind1"></td>
+                    </tr>
+                    <tr>
+                        <td>#2</td>
+                        <td id ="weather2"></td>
+                        <td id ="min2"></td>
+                        <td id ="max2"></td>
+                        <td id ="wind2"></td>
+                    </tr>
+                    <tr>
+                        <td>#3</td>
+                        <td id ="weather3"></td>
+                        <td id ="min3"></td>
+                        <td id ="max3"></td>
+                        <td id ="wind3"></td>
+                    </tr>
+                    <tr>
+                        <td>#4</td>
+                        <td id ="weather4"></td>
+                        <td id ="min4"></td>
+                        <td id ="max4"></td>
+                        <td id ="wind4"></td>
+                    </tr>
+                    <tr>
+                        <td>#5</td>
+                        <td id ="weather5"></td>
+                        <td id ="min5"></td>
+                        <td id ="max5"></td>
+                        <td id ="wind5"></td>
+                    </tr>
+                    <tr>
+                        <td>#6</td>
+                        <td id ="weather6"></td>
+                        <td id ="min6"></td>
+                        <td id ="max6"></td>
+                        <td id ="wind6"></td>
+                    </tr>
+                    <tr>
+                        <td>#7</td>
+                        <td id ="weather7"></td>
+                        <td id ="min7"></td>
+                        <td id ="max7"></td>
+                        <td id ="wind7"></td>
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

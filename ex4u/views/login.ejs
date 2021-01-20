@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>log in</title>
+    <script src = "/javascripts/password.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+<body>
+
+
+<h1>log in</h1>
+<p><%= success%></p>
+<p id = "comment"></p>
+
+<form action = "http://localhost:3000/login" method="post">
+
+    <label for="email">email</label><br>
+    <input type="email" id="email" name="email" ><br>
+    <label for="pswrd">password</label><br>
+    <input type="password" id="pswrd" name="pswrd" ><br>
+
+    <button class = "button" id = "submit" >submit</button>
+</form>
+
+
+<a href="/">to register</a>
+</body>
+</html>

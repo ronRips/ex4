@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>register</title>
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+  <script src = "/javascripts/register.js"></script>
+</head>
+<body>
+
+
+<h1>register</h1>
+<p>Welcome to the site of weather</p>
+
+<p><%= comment %></p>
+
+<form action = "http://localhost:3000/register" method="post">
+  <label for="fname">First name:</label><br>
+  <input type="text" id="fname" name="fname" ><br>
+  <label for="lname">Last name:</label><br>
+  <input type="text" id="lname" name="lname" ><br>
+  <label for="mail">e-mail:</label><br>
+  <input type="email" id="mail" name="mail" ><br><br>
+  <!--<input type="submit" value="Submit">-->
+  <button class = "button" id = "submit" >submit</button>
+</form>
+</body>
+</html>
