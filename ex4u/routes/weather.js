@@ -5,9 +5,43 @@ var router = express.Router();
 let db = require("../models")
 const url = require('url');
 
-router.get('/', function (req, res, next) {
+router.post('/get', function (req, res, next) {
+    const user_id = req.body.user_id;
 
+    console.log("get db", req.body);
+    console.log(user_id);
+    db.Place.findAll({
+        where: {
+            user_id: user_id,
+        }
+    }).then(accept => {
+        let places = [];
+        for (let i = 0; i < accept.length; i++) {
+            let city = {
+                city: accept[i].dataValues.location,
+                lon: accept[i].dataValues.lon,
+                lat: accept[i].dataValues.lat
+            };
+            places.push(city);
+        }
+        console.log(places);
+        res.send(places);
+    });
 });
+
+/*
+router.get('/get', function (req, res, next) {
+    console.log("what");
+    const user_id = req.body.user_id;
+    /!*db.Place.findAll({
+        where: {
+            user_id: user_id,
+        }
+    }).then(places => {
+        console.log(places)});*!/
+    res.end();
+});
+*/
 
 router.post('/add', function (req, res, next) {
     const {user_id, location, lat, lon} = req.body;
@@ -24,15 +58,21 @@ router.post('/remove', function (req, res, next) {
 
     console.log("remove db", req.body);
 
-    db.Place.destroy({
+    return db.Place.destroy({
         where: {
-            [Op.or]: [
-                {user_id: user_id},
-                {location: location}
-            ]
-        }
-    });
-    res.end();
+                user_id: user_id,
+                location: location
+            }
+
+    }).then((place) =>{
+        console.log(place, "yaho");
+        res.status(200).send("success");
+    })
+        .catch((err) =>{
+            console.log(place);
+            res.status(600).send("not success");
+        });
+
 });
 
 

@@ -8,9 +8,26 @@
 
     function getDB(){
         let cities = [];
-        for (i of cities){
-            addToList(i);
-        }
+        let user_id = document.getElementById("user_id").innerHTML;
+        const data = { user_id: user_id};
+
+        fetch('http://localhost:3000/weather/get', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+           .then(accept =>{
+               accept.json().then(cities => {
+                   for (i of cities) {
+                       addToList(i);
+                   }
+               })
+
+        })//.catch(err => {
+         //   console.log(err, req.status)});
+
 
     }
     function getUrl(strArr) {
@@ -52,6 +69,7 @@
         let city = mySelect[mySelect.selectedIndex].text.substring(0,mySelect[mySelect.selectedIndex].text.indexOf("(") -1 );
 
         const data = {  user_id: user_id, location: city};
+
         fetch('http://localhost:3000/weather/remove', {
             method: 'POST',
             headers: {

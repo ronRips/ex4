@@ -1,6 +1,20 @@
 (function(){
     function $(x) { return document.getElementById(x)};
 
+    function findPlaces(){
+        let user_id = $("userId").innerHTML;
+        let cities = ["jerusalem", "nyc" ]
+
+        for (country of cities){
+            let elem = $("put");
+            let str = `<div class="p-1" id=\"${country}_row\">`+
+                `<input type=\"radio\" id=\"${country}\" name=\"locations\" >\n` +
+                `<label for=\"${country}\">${country}</label>\n` +
+                `</div>`;
+            elem.innerHTML += str;
+        }
+    }
+
 
     //to translate the key words of weather
     let meaning = {
@@ -133,6 +147,7 @@
 
 
     document.addEventListener('DOMContentLoaded', function(){
+        findPlaces();
         $("add").addEventListener("click", add_place ,false);
         $("display").addEventListener("click", display ,false);
         $("del").addEventListener("click", del ,false);
