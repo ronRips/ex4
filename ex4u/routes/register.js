@@ -14,35 +14,39 @@ router.get('/', function(req, res, next){
 });
 
 router.post('/', function(req, res, next) {
-    var cookies = new Cookies(req, res, { keys: keys })
     const details = req.body;
     db.User.findAll({where:{email:details.mail}})
-        .then(content => {console.log(content.length, "empty");
+        .then(content => {
         if(content.length > 0 ){
             res.render('index', {comment:"email already exist"});
         }
         else{
-            cookies.set('expire', new Date().toISOString(),
-                { signed: true, maxAge:60*1000 })
-            res.render('password', {mail:details.mail , fname:details.fname ,lname:details.lname});
+            let information = {mail:details.mail , fname:details.fname ,lname:details.lname}
+            req.session.details = information;
+
+            res.redirect("http://localhost:3000/register/password");
         }
         });
 
-
-
+});
+router.get('/password', function(req, res, next){
+    var cookies = new Cookies(req, res, { keys: keys })
+    cookies.set('expire', new Date().toISOString(),
+        { signed: true, maxAge:60*1000 })
+    res.render('password');
 });
 
 
 router.post('/password', function (req,res,next){
-    var cookies = new Cookies(req, res, { keys: keys })
-    //e.add(req.body.fname, req.body.lname, req.body.email, req.body.fpasswrd);
+    var cookies = new Cookies(req, res, { keys: keys });
     var expire = cookies.get('expire', { signed: true });
     if (expire){
-        db.User.create({firstName: req.body.fname,
-            lastName: req.body.lname,
-            email: req.body.email,
+        db.User.create({firstName: req.session.details.fname,
+            lastName: req.session.details.lname,
+            email: req.session.details.mail,
             password: req.body.fpasswrd});
-        res.render('login', {success:"you registered successfully"});
+        req.session.commentlog ="you registered successfully";
+        res.redirect('../login');
     }
     else{
         res.redirect('../');

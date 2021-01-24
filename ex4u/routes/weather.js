@@ -5,11 +5,19 @@ var router = express.Router();
 let db = require("../models")
 const url = require('url');
 
-router.post('/get', function (req, res, next) {
-    const user_id = req.body.user_id;
+router.get('/', function(req, res, next) {
+    if(req.session.user_id){
+        res.render('weather');
+    }
+    else{
+        res.redirect("../");
+    }
+});
 
-    console.log("get db", req.body);
-    console.log(user_id);
+
+router.post('/get', function (req, res, next) {
+    const user_id = req.session.user_id;
+
     db.Place.findAll({
         where: {
             user_id: user_id,
@@ -24,52 +32,31 @@ router.post('/get', function (req, res, next) {
             };
             places.push(city);
         }
-        console.log(places);
+        //console.log(places);
         res.send(places);
     });
 });
 
-/*
-router.get('/get', function (req, res, next) {
-    console.log("what");
-    const user_id = req.body.user_id;
-    /!*db.Place.findAll({
-        where: {
-            user_id: user_id,
-        }
-    }).then(places => {
-        console.log(places)});*!/
-    res.end();
-});
-*/
-
 router.post('/add', function (req, res, next) {
-    const {user_id, location, lat, lon} = req.body;
-
-    console.log("add db", req.body);
-    console.log({user_id, location, lat, lon});
+    const {location, lat, lon} = req.body;
+    const user_id = req.session.user_id;
     db.Place.create({user_id, location, lat, lon});
     res.end();
 });
 
 router.post('/remove', function (req, res, next) {
-    const user_id = req.body.user_id;
+    const user_id = req.session.user_id;
     const location = req.body.location;
-
-    console.log("remove db", req.body);
 
     return db.Place.destroy({
         where: {
                 user_id: user_id,
                 location: location
             }
-
     }).then((place) =>{
-        console.log(place, "yaho");
         res.status(200).send("success");
     })
         .catch((err) =>{
-            console.log(place);
             res.status(600).send("not success");
         });
 

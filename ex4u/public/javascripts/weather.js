@@ -7,9 +7,8 @@
     }, false);
 
     function getDB(){
-        let cities = [];
-        let user_id = document.getElementById("user_id").innerHTML;
-        const data = { user_id: user_id};
+
+        const data = {};
 
         fetch('http://localhost:3000/weather/get', {
             method: 'POST',
@@ -65,10 +64,10 @@
     function deleteItem() {
         let mySelect = document.getElementById("id-select");
 
-        let user_id = document.getElementById("user_id").innerHTML;
+        //let user_id = document.getElementById("user_id").innerHTML;
         let city = mySelect[mySelect.selectedIndex].text.substring(0,mySelect[mySelect.selectedIndex].text.indexOf("(") -1 );
 
-        const data = {  user_id: user_id, location: city};
+        const data = { location: city};
 
         fetch('http://localhost:3000/weather/remove', {
             method: 'POST',
@@ -124,8 +123,8 @@
         let lat = document.getElementById("my-latitude").value;
         addToList({city:city,lon:lon,lat:lat});
 
-        let user_id = document.getElementById("user_id").innerHTML;
-        const data = {  user_id: user_id, location: city,lat:lat, lon:lon};
+        //let user_id = document.getElementById("user_id").innerHTML;
+        const data = { location: city,lat:lat, lon:lon};
 
         fetch('http://localhost:3000/weather/add', {
             method: 'POST',
